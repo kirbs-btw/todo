@@ -1,12 +1,27 @@
 import tkinter as tk
 
-def addNote(text, box):
+class count:
+    def __init__(self, n):
+        self.count = n
 
-    tk.Label(box, text=text).pack()
-    pass
+class ram:
+    def __init__(self):
+        self.notes = []
+
+countObj = count(0)
+ramObj = ram()
+
+def addNote(text, box):
+    countObj.count += 1
+    ramObj.notes.append(text)
+    print(ramObj.notes)
+
+    tk.Label(box, text=text, anchor="w").grid(row=countObj.count)
+
 
 def main():
     root = tk.Tk()
+    root.title("Notes")
 
     canvas = tk.Canvas(root, height=500, width=500, highlightthickness=0)
     canvas.pack()
@@ -19,11 +34,11 @@ def main():
     addBox = tk.Canvas(canvas, height=100, width=500, bg="#00ffbb", highlightthickness=0)
     addBox.place(rely=0.8, relx=0)
 
-    description = tk.Entry(addBox)
-    description.place(relx=0.5, rely=0.2)
+    description = tk.Entry(addBox, width=50)
+    description.place(relx=0.05, rely=0.5)
 
-    addButton = tk.Button(addBox, command = lambda: addNote(description.get(), box))
-    addButton.place(relx=0.5, rely=0.5)
+    addButton = tk.Button(addBox, text="add", command=lambda: addNote(description.get(), box))
+    addButton.place(relx=0.7, rely=0.5)
 
     root.mainloop()
 
