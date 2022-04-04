@@ -1,4 +1,5 @@
 import tkinter as tk
+import sqlite3
 
 class count:
     def __init__(self, n):
@@ -10,6 +11,18 @@ class ram:
 
 countObj = count(0)
 ramObj = ram()
+
+def saveNotes():
+    conn = sqlite3.connect("db.sql")
+    cur = conn.cursor()
+
+    for i in ramObj.notes:
+        command = f"INSERT INTO notes VALUES('{i}')"
+        cur.execute(command)
+        conn.commit()
+
+    conn.close()
+    print("NOTES SAVED")
 
 def addNote(text, box):
     countObj.count += 1
@@ -39,6 +52,10 @@ def main():
 
     addButton = tk.Button(addBox, text="add", command=lambda: addNote(description.get(), box))
     addButton.place(relx=0.7, rely=0.5)
+
+    saveButton = tk.Button(addBox, text="save", command=lambda: saveNotes())
+    saveButton.place(relx=0.85, rely=0.5)
+
 
     root.mainloop()
 
