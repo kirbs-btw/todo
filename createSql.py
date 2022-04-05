@@ -17,5 +17,14 @@ def printSQL():
     for i in table:
         print(i[0])
 
+def clearSQL():
+    conn = sqlite3.connect("db.sql")
+    cur = conn.cursor()
+    command = "DELETE FROM notes"
+    cur.execute(command)
+    conn.commit()
+
+
 if __name__ == '__main__':
+    clearSQL()
     printSQL()
