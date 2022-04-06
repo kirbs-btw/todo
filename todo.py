@@ -17,7 +17,9 @@ def displayTableNotes(canvas):
     for i in table:
         addNote(i[0], canvas)
 
-def saveNote(content, canvas):
+def saveNote(content, canvas, inputLable):
+    inputLable.delete(0, 1000000)
+
     conn = sqlite3.connect("db.sql")
     cur = conn.cursor()
 
@@ -31,11 +33,11 @@ def saveNote(content, canvas):
 def addNote(text, box):
     countObj.count += 1
 
-    line = tk.Canvas(box, width=500)
-    line.grid(row=countObj.count)
+    line = tk.Canvas(box)
+    line.pack()
 
-    tk.Label(line, text=text).grid(row=1)
-    tk.Button(line, text="hi", command = lambda m=line, f=text: delItem(m, f)).grid(row=2)
+    tk.Label(line, text=text, width=65, anchor="w").grid(column=0, row=0)
+    tk.Button(line, text="x", command=lambda m=line, f=text: delItem(m, f)).grid(column=1, row=0)
 
 def delItem(line, content):
     line.destroy()
@@ -66,7 +68,7 @@ def main():
     description = tk.Entry(addBox, width=50)
     description.place(relx=0.05, rely=0.5)
 
-    addButton = tk.Button(addBox, text="add", command=lambda: saveNote(description.get(), box))
+    addButton = tk.Button(addBox, text="add", command=lambda: saveNote(description.get(), box, description))
     addButton.place(relx=0.7, rely=0.5)
 
     displayTableNotes(box)
@@ -83,7 +85,5 @@ to do:
     -scroll bar
     
 raw to do app
-
-
 Bastian Lipka
 """
