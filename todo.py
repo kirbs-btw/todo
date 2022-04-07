@@ -1,5 +1,6 @@
 import tkinter as tk
 import sqlite3
+import keyboard
 
 class count:
     def __init__(self, n):
@@ -31,6 +32,9 @@ def saveNote(content, canvas, inputLable):
     addNote(content, canvas)
 
 def addNote(text, box):
+    if text == "":
+        return
+
     countObj.count += 1
 
     line = tk.Canvas(box)
@@ -57,9 +61,15 @@ def main():
     canvas = tk.Canvas(root, height=500, width=500, highlightthickness=0)
     canvas.pack()
 
+    toCanvas = tk.Canvas(canvas, height=100, width=500, highlightthickness=0, bg="#ffffff")
+    toCanvas.place(rely=0, relx=0)
+
+    topLabel = tk.Label(toCanvas, text="Todo:", font=("gotham black", 25), fg="#000000", bg="#ffffff")
+    topLabel.place(rely=0.5, relx=0.4)
+
     # upper part
-    box = tk.Canvas(canvas, height=400, width=500, bg="#ffffff", highlightthickness=0)
-    box.place(rely=0, relx=0)
+    box = tk.Canvas(canvas, height=300, width=500, bg="#ffffff", highlightthickness=0)
+    box.place(rely=0.2, relx=0)
 
     # lower part
     addBox = tk.Canvas(canvas, height=100, width=500, bg="#e3e3e3", highlightthickness=0)
@@ -72,6 +82,8 @@ def main():
     addButton.place(relx=0.7, rely=0.5)
 
     displayTableNotes(box)
+
+    keyboard.on_press_key("enter", lambda _: saveNote(description.get(), box, description))
 
     root.mainloop()
 
